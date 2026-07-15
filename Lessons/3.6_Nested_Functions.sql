@@ -17,10 +17,10 @@ WITH skills AS (
     SELECT 
         'r'
 )
-SELECT LIST(skill) AS skills_array
+SELECT ARRAY_AGG(skill) AS skills_array
 FROM skills;
 
--- remember to ORDER BY in LIST()/ARRAY_AGG() function to maintain order
+-- remember to ORDER BY in ARRAY_AGG()/ARRAY_AGG() function to maintain order
 WITH skills AS (
     SELECT 
         'python' AS skill
@@ -31,7 +31,7 @@ WITH skills AS (
     SELECT 
         'r'
 ), skills_array AS (
-    SELECT LIST(skill ORDER BY skill) AS skills
+    SELECT ARRAY_AGG(skill ORDER BY skill) AS skills
     FROM skills
 )
 SELECT
@@ -111,7 +111,7 @@ WITH skill_table AS (
         'programming'
 )
 SELECT
-    LIST(
+    ARRAY_AGG(
         STRUCT_PACK(
             skill := skills,
             type := types
@@ -120,7 +120,7 @@ SELECT
 FROM skill_table;
 
 
--- access individual structs from array of structs via list[] notation
+-- access individual structs from array of structs via ARRAY_AGG[] notation
 WITH skill_table AS (
     SELECT 
         'python' AS skills,
@@ -135,7 +135,7 @@ WITH skill_table AS (
         'programming'
 ), skills_array_struct AS (
     SELECT
-        LIST(
+        ARRAY_AGG(
             STRUCT_PACK (
                 skill := skills,
                 type := types
@@ -165,7 +165,7 @@ WITH skill_table AS (
         'programming'
 ), skills_array_struct AS (
     SELECT
-        LIST(
+        ARRAY_AGG(
             STRUCT_PACK (
                 skill := skills,
                 type := types
@@ -236,7 +236,7 @@ SELECT
     ]':: JSON AS skills_json
 )
 SELECT
-    LIST(
+    ARRAY_AGG(
         STRUCT_PACK(
             skill := json_extract_string(e.value, '$.skill'),
             type := json_extract_string(e.value, '$.type')
