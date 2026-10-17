@@ -1,2 +1,8 @@
 # Generated DuckDB database files
 *.duckdb
+
+# Generated .vscode folder
+.vscode
+
+# macOS
+.DS_Store
