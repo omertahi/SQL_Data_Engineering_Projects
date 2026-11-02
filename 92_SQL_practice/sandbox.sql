@@ -15,26 +15,21 @@ Q8, Q11 -> Department + Employee
 Q9 -> Scores
 Q10 -> Logs
 Q12 -> Weather
-
 */
 PRAGMA show_tables;
-DESCRIBE transactions;
-DESCRIBE customers;
-DESCRIBE staging_customers;
-DESCRIBE patient_records;
 
 
 /*
 Q1 — Basic Aggregation: 
-You have a table called "transactions" with columns: 
+You have a `transactions` table with columns: 
     - transaction_id
     - customer_id
     - amount
     - transaction_date
 Write a query to find the top 5 customers by total transaction amount in 2024.
-
-Use the `transactions` table
 */
+DESCRIBE transactions;
+
 SELECT
     customer_id,
     SUM(amount) AS total_amount
@@ -46,10 +41,11 @@ LIMIT 5;
 
 /*
 Q2 — Window Function: 
-Using the same "transactions" table, write a query that ranks each customer's transactions by amount within each month.
-
-Use the `transactions` table
+Using the same `transactions` table, write a query that 
+ranks each customer's transactions by amount within each month.
 */
+DESCRIBE transactions;
+
 SELECT 
     customer_id,
     transaction_id,
@@ -66,10 +62,11 @@ ORDER BY transaction_date;
 
 /*
 Q3 — CTE + Conditional: 
-Find all customers who made more than 3 transactions in any single month.
-
-Use the `transactions` table
+Given the `transactions` table, find all customers 
+who made more than 3 transactions in any single month. 
 */
+DESCRIBE transactions;
+
 WITH monthly_counts AS (
     SELECT
         customer_id,
@@ -87,11 +84,13 @@ FROM monthly_counts;
 
 /*
 Q4 — MERGE (Upsert):
-- You have a staging_customers table with new/updated records. 
-- Write a MERGE statement to upsert into customers.
-
-Use: `customers` and `staging_customers` tables
+Given `customers` and `staging_customers`,
+where staging_customers table contains new/updated records,
+write a MERGE statement to upsert into customers.
 */
+DESCRIBE customers;
+DESCRIBE staging_customers;
+
 SELECT * FROM customers;
 SELECT * FROM staging_customers;
 
@@ -119,10 +118,12 @@ WHEN NOT MATCHED THEN
 
 /*
 Q5 — Data Quality Check: 
-Write a query to find duplicate rows in a patient_records table based on patient_id and admission_date.
-
-Use: `Person` and `Address` table
+Given `Person` and `Address`, write a query to 
+find duplicate rows in a patient_records table 
+based on patient_id and admission_date.
 */
+DESCRIBE patient_records;
+
 SELECT
     t1.record_id AS record_id_1,
     t2.record_id AS record_id_2,
@@ -147,9 +148,11 @@ HAVING COUNT(*) > 1;
 
 /*
 Q6 — LAG/LEAD (common in pipeline monitoring): 
-Find the difference in transaction amount between each customer's current and previous transaction.
-Use "transactions" table
+Given the `transactions` tables, find the difference in transaction amount
+between each customer's current and previous transaction.
 */
+DESCRIBE transactions;
+
 SELECT 
     customer_id,
     amount,
@@ -166,54 +169,70 @@ ORDER BY customer_id, transaction_date;
 
 /*
 Q7 — Combine Two Tables (#175)
-Given `Person` and `Address`, return each person’s first and last name, along with their city and state. 
-Include every person, even if they have no matching address; in that case, the address fields should be `NULL`.
+Given `Person` and `Address`, return each person’s first and last name,
+along with their city and state. 
+Include every person, even if they have no matching address;
+in that case, the address fields should be `NULL`.
 
-Use: `Person` and `Address` table
 Result columns: `firstName`, `lastName`, `city`, `state`
 */
-
+DESCRIBE Person;
+DESCRIBE Address;
 
 
 
 /*
 Q8 — Second Highest Salary (#176)
 Given the `Employee` table, return the second-highest **distinct** salary.
- If there is no second-highest salary, return `NULL`.
+If there is no second-highest salary, return `NULL`.
 
 Result column: `SecondHighestSalary`
 */
-
+DESCRIBE Department;
+DESCRIBE Employee;
 
 
 
 /*
 Q9 — Rank Scores (#178)
-Given the `Scores` table, rank each score from highest to lowest. Equal scores share the same rank, and the next distinct score gets the next consecutive rank (no gaps).
+Given the `Scores` table, rank each score from highest to lowest. 
+Equal scores share the same rank, and the next distinct score gets the next consecutive rank (no gaps).
 
-**Result columns:** `score`, `rank`
+Result columns: `score`, `rank`
 */
-
+DESCRIBE Scores;
 
 
 /*
 Q10 — Consecutive Numbers (#180)
-Given the `Logs` table, find each number that appears at least three times consecutively in rows ordered by `id`. Return each qualifying number once.
+Given the `Logs` table, find each number that 
+appears at least three times consecutively in rows ordered by `id`.
+Return each qualifying number once.
 
-**Result column:** `ConsecutiveNums`
+Result column: `ConsecutiveNums`
 */
+DESCRIBE Logs;
+
 
 /*
 Q11 — Department Highest Salary (#184)
-Given `Employee` and `Department`, find the employee or employees with the highest salary in each department. Include all employees tied for the department’s highest salary.
+Given `Employee` and `Department`, 
+find the employee or employees with the highest salary in each department. 
+Include all employees tied for the department’s highest salary.
 
-**Result columns:** `Department`, `Employee`, `Salary`
+Result columns: `Department`, `Employee`, `Salary`
 */
+DESCRIBE Department;
+DESCRIBE Employee;
 
 
 /*
 Q12 — Rising Temperature (#197)
-Given the `Weather` table, find the IDs of records whose temperature is higher than the temperature on the **previous calendar day**. A record only qualifies if the previous row’s date is exactly one day earlier.
+Given the `Weather` table, 
+find the IDs of records whose temperature is higher than the temperature on the previous calendar day. 
+A record only qualifies if the previous row’s date is exactly one day earlier.
 
-**Result column:** `Id`
+Result column: `Id`
 */
+DESCRIBE Weather;
+
