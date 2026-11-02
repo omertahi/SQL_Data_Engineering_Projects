@@ -7,6 +7,16 @@ DROP TABLE IF EXISTS customers;
 DROP TABLE IF EXISTS patient_records;
 DROP TABLE IF EXISTS transactions;
 
+-- Leetcode practice tables
+DROP TABLE IF EXISTS Person;
+DROP TABLE IF EXISTS Address;
+DROP TABLE IF EXISTS Department;
+DROP TABLE IF EXISTS Employee;
+DROP TABLE IF EXISTS Scores;
+DROP TABLE IF EXISTS Logs;
+DROP TABLE IF EXISTS Weather;
+
+
 CREATE TABLE transactions (
     transaction_id INTEGER PRIMARY KEY,
     customer_id INTEGER NOT NULL,
@@ -95,3 +105,108 @@ INSERT INTO patient_records (record_id, patient_id, admission_date, ward) VALUES
 (6, 202, DATE '2024-01-04', 'B'), -- duplicate patient_id + admission_date
 (7, 205, DATE '2024-03-15', 'A'),
 (8, 201, DATE '2024-04-01', 'B'); -- same patient, different admission date
+
+-- LeetCode 175: Combine Two Tables
+CREATE TABLE Person (
+    personId INTEGER,
+    lastName VARCHAR,
+    firstName VARCHAR
+);
+
+CREATE TABLE Address (
+    addressId INTEGER,
+    personId INTEGER,
+    city VARCHAR,
+    state VARCHAR
+);
+
+INSERT INTO Person VALUES
+    (1, 'Wang', 'Allen'),
+    (2, 'Alice', 'Bob'),
+    (3, 'Patel', 'Maya'),
+    (4, 'Jones', 'Sam');
+
+INSERT INTO Address VALUES
+    (1, 2, 'New York City', 'New York'),
+    (2, 3, 'Austin', 'Texas'),
+    (3, 99, 'Nowhere', 'Unknown');
+
+
+-- LeetCode 176, 184: Second Highest Salary / Department Highest Salary
+CREATE TABLE Department (
+    id INTEGER,
+    name VARCHAR
+);
+
+CREATE TABLE Employee (
+    id INTEGER,
+    name VARCHAR,
+    salary INTEGER,
+    departmentId INTEGER
+);
+
+INSERT INTO Department VALUES
+    (1, 'Engineering'),
+    (2, 'Sales'),
+    (3, 'Support');
+
+INSERT INTO Employee VALUES
+    (1, 'Alice', 90000, 1),
+    (2, 'Bob',   80000, 1),
+    (3, 'Carol', 90000, 1), -- tied department high
+    (4, 'Dan',   70000, 2),
+    (5, 'Eve',   60000, 2),
+    (6, 'Finn',  60000, 2), -- tied salary, tests DISTINCT
+    (7, 'Gail',  50000, 2),
+    (8, 'Hugo',  40000, NULL); -- no matching department
+
+
+-- LeetCode 178: Rank Scores
+CREATE TABLE Scores (
+    id INTEGER,
+    score DECIMAL(4, 2)
+);
+
+INSERT INTO Scores VALUES
+    (1, 3.50),
+    (2, 3.65),
+    (3, 4.00),
+    (4, 3.85),
+    (5, 4.00),
+    (6, 3.65);
+
+
+-- LeetCode 180: Consecutive Numbers
+CREATE TABLE Logs (
+    id INTEGER,
+    num INTEGER
+);
+
+INSERT INTO Logs VALUES
+    (1, 1),
+    (2, 1),
+    (3, 1), -- three consecutive 1s
+    (4, 2),
+    (5, 1),
+    (6, 1),
+    (7, 2),
+    (8, 2),
+    (9, 2), -- three consecutive 2s
+    (10, 2); -- four consecutive 2s
+
+
+-- LeetCode 197: Rising Temperature
+CREATE TABLE Weather (
+    id INTEGER,
+    recordDate DATE,
+    temperature INTEGER
+);
+
+INSERT INTO Weather VALUES
+    (1, DATE '2024-01-01', 10),
+    (2, DATE '2024-01-02', 12), -- warmer than previous day
+    (3, DATE '2024-01-03', 11), -- cooler
+    (4, DATE '2024-01-05', 14), -- date gap: not compared as yesterday
+    (5, DATE '2024-01-06', 15), -- warmer than previous day
+    (6, DATE '2024-01-07', 15), -- same temperature
+    (7, DATE '2024-01-08', 16); -- warmer than previous day
