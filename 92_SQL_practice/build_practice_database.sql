@@ -6,7 +6,6 @@ DROP TABLE IF EXISTS staging_customers;
 DROP TABLE IF EXISTS customers;
 DROP TABLE IF EXISTS patient_records;
 DROP TABLE IF EXISTS transactions;
-
 -- Leetcode practice tables
 DROP TABLE IF EXISTS Person;
 DROP TABLE IF EXISTS Address;
